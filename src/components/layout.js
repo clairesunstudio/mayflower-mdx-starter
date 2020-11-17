@@ -54,7 +54,7 @@ const Layout = ({ children, pre }) => {
   };
 
   return(
-    <>
+    <div id="page-wrapper">
       <HeaderSlim {...headerProps} />
         <main id="main-content">
           <div className="ma__container">
@@ -62,7 +62,7 @@ const Layout = ({ children, pre }) => {
           </div>
         </main>
       <FooterSlim {...footerProps} />
-    </>
+    </div>
   );
 };
 

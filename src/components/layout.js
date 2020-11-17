@@ -7,6 +7,9 @@ import FooterSlim from '@massds/mayflower-react/dist/FooterSlim';
 import SiteLogo from '@massds/mayflower-react/dist/SiteLogo';
 import './layout.scss';
 import logo from '@massds/mayflower-assets/static/images/logo/stateseal.png';
+import "github-markdown-css/github-markdown.css";
+
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 const Layout = ({ children, pre }) => {
   const data = useStaticQuery(graphql`
@@ -18,20 +21,18 @@ const Layout = ({ children, pre }) => {
           url
         }
       }
-      allSitePage {
+      allMdx {
         nodes {
-          path
-          internal {
-            description
-            type
-            content
+          fileAbsolutePath
+          headings {
+            value
           }
         }
       }
     }
   `);
   const { description, title, url } = data.site.siteMetadata;
-  const { nodes } = data.allSitePage;
+  const { nodes } = data.allMdx;
   const siteLogoProps = {
     url: {
       domain: url
@@ -64,16 +65,26 @@ const Layout = ({ children, pre }) => {
     description: ''
   };
 
+const getStringBetween = (fullStr, firstStr, secondStr) => {
+  return fullStr.substring(
+      fullStr.lastIndexOf(firstStr) + firstStr.length,
+      fullStr.lastIndexOf(secondStr))
+}
   return(
     <div id="page-wrapper">
       <HeaderSlim {...headerProps} />
         <nav id="main-nav">
+          <h3>Table of Content</h3>
             {
-              nodes.map((node) => (<Link to={node.path} >{node.path}</Link>))
+              nodes.map((node) => {
+                const path = getStringBetween(node.fileAbsolutePath, "src/pages/", ".md");
+                const title = node.headings[0].value
+                return(<Link to={path =="index" ? "/" : path} >{title}</Link>)
+              })
             }
         </nav>
         <main id="main-content">
-          <div className="ma__container">
+          <div className="ma__container markdown-body">
             {children}
           </div>
         </main>

@@ -17,6 +17,8 @@
 @use "01-atoms/svg-loc-icons";
 
 
+@use "github-markdown-css/github-markdown.css";
+
 .ma__container {
 
   @include ma-container();

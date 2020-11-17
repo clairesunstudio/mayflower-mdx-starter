@@ -1,11 +1,11 @@
-const path = require('path')
+const path = require('path');
+const assets = require('@massds/mayflower-assets');
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Starter MDX Basic',
-    description:
-      'Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.',
-    author: '@chrisbiscardi',
+    title: 'Mayflower',
+    description: 'A design system for the Commonwealth of Massachusetts',
+    url: 'https://mayflower.digital.mass.gov/'
   },
   plugins: [
     {
@@ -32,17 +32,35 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'gatsby-default-mdx-basic',
+        name: 'gatsby-starter-default',
         short_name: 'starter',
         start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
         display: 'minimal-ui',
-        icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
-      },
+        icon: `${path.dirname(require.resolve('@massds/mayflower-assets'))}/static/images/logo/stateseal.png` // This path is relative to the root of the site.
+      }
     },
+    {
+      resolve: 'gatsby-plugin-sass',
+      options: {
+        implementation: require("sass"),
+        sourceMap: true,
+        useResolveUrlLoader: {
+          sourceMap: true
+        },
+        cssLoaderOptions: {
+          sourceMap: true,
+          esModule: true
+        },
+        includePaths: [
+          'src',
+          'node_modules',
+          `${path.dirname(require.resolve('@massds/mayflower-react'))}/dist`,
+          `${path.dirname(require.resolve('@massds/mayflower-react'))}/styles`
+        ].concat(assets.includePaths)
+      }
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     // 'gatsby-plugin-offline',

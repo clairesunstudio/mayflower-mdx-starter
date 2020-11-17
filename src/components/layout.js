@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql, Link } from 'gatsby'
 
 import HeaderSlim from '@massds/mayflower-react/dist/HeaderSlim';
 import FooterSlim from '@massds/mayflower-react/dist/FooterSlim';
@@ -18,9 +18,20 @@ const Layout = ({ children, pre }) => {
           url
         }
       }
+      allSitePage {
+        nodes {
+          path
+          internal {
+            description
+            type
+            content
+          }
+        }
+      }
     }
   `);
   const { description, title, url } = data.site.siteMetadata;
+  const { nodes } = data.allSitePage;
   const siteLogoProps = {
     url: {
       domain: url
@@ -56,6 +67,11 @@ const Layout = ({ children, pre }) => {
   return(
     <div id="page-wrapper">
       <HeaderSlim {...headerProps} />
+        <nav id="main-nav">
+            {
+              nodes.map((node) => (<Link to={node.path} >{node.path}</Link>))
+            }
+        </nav>
         <main id="main-content">
           <div className="ma__container">
             {children}

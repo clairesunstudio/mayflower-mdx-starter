@@ -44,3 +44,12 @@ footer {
   flex-grow: 1;
   width: 100%;
 }
+
+
+#main-nav {
+  position: absolute;
+    top: 130px;
+    left: 2rem;
+  display: flex;
+  flex-direction: column;
+}
